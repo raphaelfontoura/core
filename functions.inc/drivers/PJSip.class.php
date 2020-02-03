@@ -354,9 +354,12 @@ class PJSip extends \FreePBX\modules\Core\Drivers\Sip {
 			$conf['pjsip.transports.conf'][$transport] = $tmparr;
 		}
 
+		$use_callerid_contact = \FreePBX::create()->Sipsettings->getConfig('pjsip_use_callerid_contact');
+		$use_callerid_contact = (empty($use_callerid_contact))? "no": $use_callerid_contact;
 		$conf['pjsip.conf']['global'] = array(
 			'type=global',
-			'user_agent='.$this->freepbx->Config->get('SIPUSERAGENT') . '-' . getversion() . "(" . $this->version . ")"
+			'user_agent='.$this->freepbx->Config->get('SIPUSERAGENT') . '-' . getversion() . "(" . $this->version . ")",
+			'use_callerid_contact='.$use_callerid_contact,
 		);
 		if(!empty($this->_global) && is_array($this->_global)) {
 			foreach($this->_global as $el) {
